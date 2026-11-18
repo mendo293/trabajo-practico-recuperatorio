@@ -15,7 +15,8 @@ def test_observacion_valida():
     assert obs.temperatura == 10.5
     assert obs.humedad == 65
     assert obs.velocidad_viento == 20
-    
+    assert obs.es_helada() == False
+
 def test_observacion_humedad_invalida():
     with pytest.raises(ValueError):
         Observacion(

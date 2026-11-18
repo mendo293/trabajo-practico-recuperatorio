@@ -6,11 +6,11 @@ class Observacion:
             raise ValueError("La hora debe ser un entero y debe estar entre 0 y 23.")
         if None in (temperatura, humedad, velocidad_viento):
             raise ValueError("La temperatura, la humedad y la velocidad del viento no pueden faltar.")
-        if not isinstance(temperatura, (int, float)):
-            raise ValueError("La temperatura debe ser un valor numérico.")
+        if not isinstance(temperatura, (int, float)) or not (-30<temperatura):
+            raise ValueError("La temperatura debe ser un valor numérico y NO debe ser menor a -30..")
         if not isinstance(humedad, (int, float)) or not (0<=humedad<=100):
             raise ValueError("La humedad debe ser un valor numérico y debe estar entre 0 y 100.")
-        if not isinstance(velocidad_viento, (int, float)) or not (0<=velocidad_viento):
+        if not isinstance(velocidad_viento, (int, float)) or not (0<velocidad_viento):
             raise ValueError("La velocidad del viento tiene que ser un valor númerico y no puede ser negativa.")
         
         self.estacion = estacion.strip()
@@ -27,6 +27,9 @@ class Observacion:
         else:
             return False
         
+    def es_helada(self):
+        return self.temperatura <= 0
+    
     def intensidad_viento(self):
        if self.velocidad_viento < 2:
            return "calma"
@@ -35,7 +38,8 @@ class Observacion:
        elif self.velocidad_viento < 40:
            return "moderado"
        return "fuerte"
-   
+
+
     def __str__(self):
         intensidad = self.intensidad_viento()
         return (f"{self.estacion} | {self.hora} h | {self.temperatura} °C | {self.humedad} % | {self.velocidad_viento} km/h ({intensidad})" )
