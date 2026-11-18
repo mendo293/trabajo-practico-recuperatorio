@@ -28,6 +28,7 @@ def filtrar_estaciones(observaciones, nombre_estacion):
         if obs.es_estacion(nombre_estacion):
             filtradas.append(obs)
     return filtradas
+
     
 def resumen_temperaturas(observaciones):
     if len(observaciones) == 0:
@@ -40,12 +41,16 @@ def resumen_temperaturas(observaciones):
     obs_minima = observaciones[0]
     obs_maxima = observaciones [0]
     suma = 0.0
+    horas_helada = 0
     
     for obs in observaciones:
         if obs.temperatura < obs_minima.temperatura:
             obs_minima = obs
         if obs.temperatura > obs_maxima.temperatura:
             obs_maxima = obs
+        if obs.es_helada():
+            horas_helada += 1
+        
         
         suma = suma + obs.temperatura
     
@@ -57,4 +62,12 @@ def resumen_temperaturas(observaciones):
         "minima": obs_minima,
         "maxima": obs_maxima,
         "promedio": promedio,
+        "horas": horas_helada,
     }
+
+def obtener_heladas(observaciones):
+    heladas = []
+    for obs in observaciones:
+        if obs.es_helada():
+            heladas.append(obs)
+    return heladas
